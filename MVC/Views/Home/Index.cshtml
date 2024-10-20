@@ -1,0 +1,74 @@
+﻿@using MVC.Models
+
+@model IndexModel
+@{
+    ViewData["Title"] = "Изделия";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Изделия</h1>
+    <h2 class="display-2" id="errorMessage">По вашему запросу ничего не найдено!</h2>
+    
+    <a class="popup-open-add" href="#">Добавить изделие</a>
+    <a class="popup-open-upd" href="#">Редактировать изделие</a>
+
+
+
+    <div class="popup-fade">
+        <div class="popup-add">
+            <a class="popup-close" href="#"></a>
+            <form action="/Home/AddProduct" id="addForm">
+                <input type="text" id="newName" placeholder="Наименование">
+                <input type="text" id="newDesc" placeholder="Описание">
+                <button type="submit" id="addButton">Создать</button>
+            </form>
+        </div>
+
+        <div class="popup-upd">
+            <a class="popup-close" href="#"></a>
+            <form action="/Home/UpdateProduct" id="addForm">
+                <input type="hidden" id="updGuid">
+                <input type="text" id="updName" placeholder="Наименование">
+                <input type="text" id="updDesc" placeholder="Описание">
+                <button type="submit" id="updButton">Сохранить</button>
+            </form>
+        </div>
+
+    </div>
+
+
+    <form action="/Home/SearchProducts">
+        <input type="text" id="searchText" placeholder="Искать здесь..." value="@Model?.SearchText">
+        <button type="submit" id="searchButton">Поиск</button>
+    </form>
+
+    <table class="iksweb" id="mainTable">
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td>Наименование</td>
+                <td>Описание</td>
+            </tr>
+            @{
+                foreach(var  item in Model?.Products)
+                {
+                    <tr>
+                        <td class="id_product">@item.ID</td>
+                        <td class="name_product">@item.Name</td>
+                        @if (string.IsNullOrWhiteSpace(item.Description))
+                        {
+                            <td class="desc_product">-</td>
+                        }
+                        else
+                        {
+                            <td class="desc_product">@item.Description</td>
+                        }
+
+                    </tr>
+                }
+            }
+
+            
+        </tbody>
+    </table>
+</div>
